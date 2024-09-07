@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Animated WebP Image Example</title>
+</head>
+<style>
+    
+@font-face{
+    font-family: 'sam';
+    font-style: normal;
+    src: url('./6c6374bad0b0b6d204d8d6dc4a18d820.woff') format("woff");
+}
+
+@font-face{
+    font-family: 'sam';
+    font-style: normal;
+    src: url('./6c6374bad0b0b6d204d8d6dc4a18d820.woff') format("woff");
+}
+
+</style>
+<body>
+    <center>
+    <canvas id="myCanvas" width="512" height="512" style="display:none;"></canvas>
+    <img id="webpImage" alt="Generated WebP">
+    </center>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        let hue = 0;
+        let text = 'whmer';  
+
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+
+        function setTextFromURL() {
+            const queryText = getQueryParam('q');
+            if (queryText) {
+                text = queryText;
+            }
+        }
+
+
+        function drawText() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+
+
+            ctx.fillStyle = 'transparent';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
+            ctx.font = '78px sam';
+            //ctx.fillStyle = `hsl(${hue}, 100%, 50%)`; 
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+
+            hue += 5;
+            if (hue > 360) hue = 0;  
+
+
+            const webpDataURL = canvas.toDataURL('image/webp');
+
+            const imgElement = document.getElementById('webpImage');
+            imgElement.src = webpDataURL;
+            window.location = webpDataURL;
+
+
+            requestAnimationFrame(drawText);
+        }
+
+
+        setTextFromURL();
+        drawText();
+    </script>
+</body>
+</html>
